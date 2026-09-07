@@ -415,12 +415,21 @@ async def safe_edit(
 
 
 def build_caption(post: dict) -> str:
-    """Итоговый текст объявления: тело + хэштеги через двойной перенос."""
+    """Итоговый текст объявления: тело + хэштеги + подпись через двойной перенос."""
     body = (post.get("text") or "").strip()
     tags = " ".join(post.get("selected_hashtags") or [])
-    if body and tags:
-        return f"{body}\n\n{tags}"
-    return body or tags
+
+    # Подпись: «Текст» → просто текст, если есть URL → кликабельная ссылка
+    sig  = ""
+    name = config.POST_SIGNATURE.strip()
+    url  = config.POST_SIGNATURE_URL.strip()
+    if name and url:
+        sig = f'<a href="{url}">{name}</a>'
+    elif name:
+        sig = name
+
+    parts = [p for p in [body, tags, sig] if p]
+    return "\n\n".join(parts)
 
 
 async def send_content(chat_id: int, post: dict) -> list[int]:

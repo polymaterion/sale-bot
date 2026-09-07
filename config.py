@@ -12,6 +12,10 @@ CHANNEL_URL = os.environ["CHANNEL_URL"]       # "https://t.me/mychannel"
 # ─── Опциональные переменные (есть дефолты) ────────────────────────────────────
 TIMEZONE = os.environ.get("TIMEZONE", "Europe/Moscow")
 
+# Подпись под каждым постом (текст + ссылка)
+POST_SIGNATURE      = os.environ.get("POST_SIGNATURE", "")       # напр. "Барахолка Политеха"
+POST_SIGNATURE_URL  = os.environ.get("POST_SIGNATURE_URL", "")   # напр. "https://t.me/mychannel"
+
 # Хэштеги барахолки
 HASHTAGS: list[str] = [
     tag.strip()
